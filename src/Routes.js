@@ -1,15 +1,37 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Navigate, useRoutes } from 'react-router-dom';
+// layouts
+import DashboardLayout from './layouts/dashboard';
+import LogoOnlyLayout from './layouts/LogoOnlyLayout';
+//
+import Login from './pages/Login';
+import Register from './pages/Register';
+import DashboardApp from './pages/DashboardApp';
+import User from './pages/User';
+import NotFound from './pages/Page404';
 
-/**
- * Import all page components
- */
-import App from "./components/App";
+// ----------------------------------------------------------------------
 
-const MainRoutes = () => (
-  <Routes>
-    <Route exact path="/" element={<App />} />
-  </Routes>
-);
-
-export default MainRoutes;
+export default function Router() {
+  return useRoutes([
+    {
+      path: '/dashboard',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'app', element: <DashboardApp /> },
+        { path: 'user', element: <User /> }
+      ]
+    },
+    {
+      path: '/',
+      element: <LogoOnlyLayout />,
+      children: [
+        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: '404', element: <NotFound /> },
+        { path: '*', element: <Navigate to="/404" /> }
+      ]
+    },
+    { path: '*', element: <Navigate to="/404" replace /> }
+  ]);
+}
