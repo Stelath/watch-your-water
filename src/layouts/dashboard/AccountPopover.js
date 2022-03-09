@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha } from '@mui/material/styles';
@@ -6,8 +6,8 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 // components
 import Iconify from '../../components/Iconify';
 import MenuPopover from '../../components/MenuPopover';
-//
-import account from '../../_mocks_/account';
+
+import { getUserData } from '../../utils/getUserData';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +34,11 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [account, setAccount] = useState({
+    displayName: 'Loading...',
+    email: 'Loading...',
+    photoURL: '/static/mock-images/avatars/avatar_default.jpg'
+  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -41,6 +46,10 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    getUserData(setAccount);
+  }, []);
 
   return (
     <>

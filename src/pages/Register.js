@@ -1,4 +1,8 @@
-import { Link as RouterLink } from 'react-router-dom';
+// React
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+// firebase
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -38,7 +42,44 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Register() {
+export default function Register(email, password, firstName, lastName) {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState('');
+
+  const navigate = useNavigate();
+
+  const registerWithEmail = (email, password) => {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        user.updateProfile({
+          displayName: `${firstName} ${lastName}`,
+          photoURL: '/static/mock-images/avatars/avatar_default.jpg'
+        });
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.code;
+        setAlert(errorMessage);
+        setOpenAlert(true);
+      });
+  };
+
+  const registerWithService = (provider) => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const { user } = result;
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.code;
+        setAlert(errorMessage);
+        setOpenAlert(true);
+      });
+  };
+
   return (
     <RootStyle title="Register | Watch Your Water">
       <AuthLayout>
@@ -66,9 +107,9 @@ export default function Register() {
             </Typography>
           </Box>
 
-          <AuthSocial />
+          <AuthSocial loginHandler={registerWithService} />
 
-          <RegisterForm />
+          <RegisterForm registerHandler={registerWithEmail} />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             By registering, I agree to Minimal&nbsp;

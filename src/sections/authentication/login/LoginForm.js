@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import {
@@ -18,8 +19,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
-  const navigate = useNavigate();
+export default function LoginForm({ loginHandler }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -34,8 +34,8 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: ({ email, password }) => {
+      loginHandler(email, password);
     }
   });
 
@@ -103,3 +103,7 @@ export default function LoginForm() {
     </FormikProvider>
   );
 }
+
+LoginForm.propTypes = {
+  loginHandler: PropTypes.func
+};

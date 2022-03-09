@@ -1,13 +1,18 @@
-import { Link as RouterLink } from 'react-router-dom';
+// React
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Card, Stack, Link, Container, Typography } from '@mui/material';
+// firebase
+import { getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { LoginForm } from '../sections/authentication/login';
 import AuthSocial from '../sections/authentication/AuthSocial';
+import SnackbarAlert from '../components/SnackbarAlert';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +44,45 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState('');
+
+  const navigate = useNavigate();
+
+  const loginWithEmail = (email, password) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.code;
+        setAlert(errorMessage);
+        setOpenAlert(true);
+      });
+  };
+
+  const loginWithService = (provider) => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.code;
+        setAlert(errorMessage);
+        setOpenAlert(true);
+      });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+
   return (
     <RootStyle title="Login | Watch Your Water">
       <AuthLayout>
@@ -63,9 +107,11 @@ export default function Login() {
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
           </Stack>
-          <AuthSocial />
+          <AuthSocial loginHandler={loginWithService} />
 
-          <LoginForm />
+          <LoginForm loginHandler={loginWithEmail} />
+
+          <SnackbarAlert open={openAlert} alert={alert} onClose={handleClose} />
 
           <Typography
             variant="body2"

@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // material
@@ -10,7 +11,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm({ registerHandler }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,8 +33,8 @@ export default function RegisterForm() {
       password: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: ({ email, password, firstName, lastName }) => {
+      registerHandler(email, password, firstName, lastName);
     }
   });
 
@@ -104,3 +105,7 @@ export default function RegisterForm() {
     </FormikProvider>
   );
 }
+
+RegisterForm.propTypes = {
+  registerHandler: PropTypes.func
+};

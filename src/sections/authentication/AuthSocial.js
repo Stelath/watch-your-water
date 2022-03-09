@@ -1,41 +1,13 @@
+import PropTypes from 'prop-types';
 // material
 import { Stack, Button, Divider, Typography } from '@mui/material';
 // component
-import {
-  getAuth,
-  signInWithPopup,
-  OAuthProvider,
-  GoogleAuthProvider,
-  FacebookAuthProvider
-} from 'firebase/auth';
+import { OAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import Iconify from '../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-const loginWithService = (provider) => {
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // The signed-in user info.
-      const { user } = result;
-      console.log(user);
-      // Apple credential
-      const credential = OAuthProvider.credentialFromResult(result);
-      // const accessToken = credential.accessToken;
-      // const idToken = credential.idToken;
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The credential that was used.
-      const credential = OAuthProvider.credentialFromError(error);
-    });
-};
-
-export default function AuthSocial() {
+export default function AuthSocial({ loginHandler }) {
   return (
     <>
       <Stack direction="row" spacing={2}>
@@ -44,7 +16,7 @@ export default function AuthSocial() {
           size="large"
           color="inherit"
           variant="outlined"
-          onClick={() => loginWithService(new GoogleAuthProvider())}
+          onClick={() => loginHandler(new GoogleAuthProvider())}
         >
           <Iconify icon="eva:google-fill" color="#DF3E30" height={24} />
         </Button>
@@ -54,7 +26,7 @@ export default function AuthSocial() {
           size="large"
           color="inherit"
           variant="outlined"
-          onClick={() => loginWithService(new FacebookAuthProvider())}
+          onClick={() => loginHandler(new FacebookAuthProvider())}
         >
           <Iconify icon="eva:facebook-fill" color="#1877F2" height={24} />
         </Button>
@@ -64,7 +36,7 @@ export default function AuthSocial() {
           size="large"
           color="inherit"
           variant="outlined"
-          onClick={() => loginWithService(new OAuthProvider('apple.com'))}
+          onClick={() => loginHandler(new OAuthProvider('apple.com'))}
         >
           <Iconify icon="bi:apple" color="#AAAAAA" height={24} />
         </Button>
@@ -78,3 +50,7 @@ export default function AuthSocial() {
     </>
   );
 }
+
+AuthSocial.propTypes = {
+  loginHandler: PropTypes.func
+};
