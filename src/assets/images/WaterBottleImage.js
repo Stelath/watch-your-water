@@ -7,10 +7,15 @@ export default function WaterBottleImage(props) {
   fill = props.fill != null ? props.fill : '#000';
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.6 512.89" style={props.sx}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270.7 512.9" style={props.sx}>
       <path
         style={{ fill: '#FFF' }}
-        d="M478.7,566.39v.31a42.89,42.89,0,0,1-42.9,42.9H264.1a42.89,42.89,0,0,1-42.9-42.9v-.31h-6.55v50h270.6v-50Z"
+        d="M485.35,245.5l-.1-74.5H214.65l.1,74.5h6.5v-.3a42.89,42.89,0,0,1,42.9-42.9h171.7a42.89,42.89,0,0,1,42.9,42.9v.3Z"
+        transform="translate(-214.65 -103.5)"
+      />
+      <path
+        style={{ fill: '#FFF' }}
+        d="M478.7,566.4v.3a42.89,42.89,0,0,1-42.9,42.9H264.1a42.89,42.89,0,0,1-42.9-42.9v-.3h-6.5v50H485.3v-50Z"
         transform="translate(-214.65 -103.5)"
       />
       <path

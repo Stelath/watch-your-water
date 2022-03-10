@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
@@ -34,18 +35,20 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
-
-export default function DailySteps() {
+export default function DailySteps({ steps }) {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ant-design:android-filled" width={24} height={24} />
+        <Iconify icon="mdi:run" width={32} height={32} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(steps)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Daily Steps
+        Steps Taken Today
       </Typography>
     </RootStyle>
   );
 }
+
+DailySteps.propTypes = {
+  steps: PropTypes.number.isRequired
+};

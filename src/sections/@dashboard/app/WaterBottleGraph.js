@@ -4,12 +4,9 @@ import { Card, CardHeader, Box, Typography } from '@mui/material';
 import Wave from 'react-wavify';
 import WaterBottleImage from '../../../assets/images/WaterBottleImage';
 
-const CHART_DATA = [4344, 5435, 1443, 4443];
-
-export default function AppCurrentVisits() {
+export default function WaterBottleGraph({ waterDrunk, waterGoal }) {
   const theme = useTheme();
-
-  const waterLevelStyle = { mt: '75%', mb: 0, color: theme.palette.info.lighter };
+  const waterHeight = 235 - 235 * (waterDrunk / waterGoal);
 
   return (
     <Card>
@@ -29,14 +26,15 @@ export default function AppCurrentVisits() {
                 style={{
                   position: 'absolute',
                   bottom: 0,
-                  marginBottom: 100,
+                  marginBottom: 105,
                   marginLeft: 2,
                   width: 146,
-                  zIndex: 0
+                  zIndex: 0,
+                  height: 235
                 }}
                 paused={false}
                 options={{
-                  height: 20,
+                  height: waterHeight,
                   amplitude: 5,
                   speed: 0.2,
                   points: 3
@@ -50,19 +48,40 @@ export default function AppCurrentVisits() {
             </div>
 
             <div style={{ padding: '5px', height: 379, position: 'absolute' }}>
-              <Typography variant="h6" sx={{ mt: '235%', mb: 0, color: theme.palette.info.darker }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: '225%',
+                  mb: 0,
+                  color: waterHeight <= 40 ? theme.palette.info.lighter : theme.palette.info.darker
+                }}
+              >
                 - 10.5 -
               </Typography>
-              <Typography variant="h6" sx={waterLevelStyle}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: '75%',
+                  mb: 0,
+                  color: waterHeight <= 110 ? theme.palette.info.lighter : theme.palette.info.darker
+                }}
+              >
                 - 10.5 -
               </Typography>
-              <Typography variant="h6" sx={waterLevelStyle}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: '75%',
+                  mb: 0,
+                  color: waterHeight <= 180 ? theme.palette.info.lighter : theme.palette.info.darker
+                }}
+              >
                 - 10.5 -
               </Typography>
             </div>
           </div>
           <Typography variant="h4" sx={{ textAlign: 'center', mt: '30px' }}>
-            100 OZ
+            {waterDrunk} / {waterGoal} OZ
           </Typography>
         </div>
       </Box>

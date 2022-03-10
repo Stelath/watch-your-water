@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
@@ -34,18 +35,20 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 1352831;
-
-export default function DailyWaterDrunk() {
+export default function DailyWaterDrunk({ water }) {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ant-design:apple-filled" width={24} height={24} />
+        <Iconify icon="mdi:water" width={32} height={32} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{fShortenNumber(water)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Daily Water Drunk
+        Ounces of Water Drunk
       </Typography>
     </RootStyle>
   );
 }
+
+DailyWaterDrunk.propTypes = {
+  water: PropTypes.number.isRequired
+};

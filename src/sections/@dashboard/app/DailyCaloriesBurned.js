@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Card, Typography } from '@mui/material';
@@ -34,18 +35,20 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DailyCaloriesBurned(props) {
-  const calories = props.calories != null ? props.calories : 0;
-
+export default function DailyCaloriesBurned({ calories }) {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Iconify icon="ant-design:windows-filled" width={24} height={24} />
+        <Iconify icon="mdi:fire" width={32} height={32} />
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(calories)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Daily Calories Burned
+        Calories Burned Today
       </Typography>
     </RootStyle>
   );
 }
+
+DailyCaloriesBurned.propTypes = {
+  calories: PropTypes.number.isRequired
+};

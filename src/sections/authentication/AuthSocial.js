@@ -38,7 +38,7 @@ export default function AuthSocial({ loginHandler }) {
           variant="outlined"
           onClick={() => loginHandler(new OAuthProvider('apple.com'))}
         >
-          <Iconify icon="bi:apple" color="#AAAAAA" height={24} />
+          <Iconify icon="ant-design:apple-filled" color="#AAAAAA" height={24} />
         </Button>
       </Stack>
 
