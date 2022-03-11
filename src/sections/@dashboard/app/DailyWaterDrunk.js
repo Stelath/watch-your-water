@@ -43,7 +43,7 @@ export default function DailyWaterDrunk({ water }) {
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(water)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Ounces of Water Drunk
+        Ounces of Water
       </Typography>
     </RootStyle>
   );

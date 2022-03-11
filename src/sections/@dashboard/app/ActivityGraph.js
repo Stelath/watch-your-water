@@ -44,7 +44,12 @@ export default function ActivityGraph({ chartData }) {
     <Card>
       <CardHeader title="Water Drunk" subheader="Shown over Time" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={chartData} options={chartOptions} height={364} />
+        <ReactApexChart
+          type="line"
+          series={chartData}
+          options={chartOptions}
+          height={363 + Math.random()} // Math.random() fixes a really annoying bug in react-apexcharts that causes it to fail to render the chart when clicked out of
+        />
       </Box>
     </Card>
   );

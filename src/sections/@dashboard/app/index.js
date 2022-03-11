@@ -4,3 +4,4 @@ export { default as DailyCaloriesBurned } from './DailyCaloriesBurned';
 export { default as DailyWaterDrunk } from './DailyWaterDrunk';
 export { default as ActivityGraph } from './ActivityGraph';
 export { default as DailySteps } from './DailySteps';
+export { default as ActivityInput } from './ActivityInput';

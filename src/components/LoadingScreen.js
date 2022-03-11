@@ -44,7 +44,11 @@ export default function LoadingScreen({ open }) {
         timeout: 500
       }}
     >
-      <Fade in={open} timeout={{ enter: 0, exit: 750 }} addEndListener={handleAnimationEnd}>
+      <Fade
+        in={open}
+        timeout={{ enter: 0, exit: 750 }}
+        addEndListener={() => setInterval(handleAnimationEnd, 500)}
+      >
         <Box sx={style}>
           <div style={{ textAlign: 'center' }}>
             <img

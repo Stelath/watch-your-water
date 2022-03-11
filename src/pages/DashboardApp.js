@@ -11,13 +11,15 @@ import { dateToISOFormat } from '../utils/formatDate';
 // components
 import Page from '../components/Page';
 import LoadingScreen from '../components/LoadingScreen';
+
 import {
   ActivityGraph,
   DailyCaloriesBurned,
   DailySteps,
   DailyWaterDrunk,
   WaterBottleGraph,
-  AppBugReports
+  AppBugReports,
+  ActivityInput
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -144,6 +146,8 @@ export default function DashboardApp() {
           <Typography variant="h4">Stay Healthy!</Typography>
         </Box>
       </Container>
+
+      <ActivityInput />
     </Page>
   );
 }

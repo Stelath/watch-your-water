@@ -43,7 +43,7 @@ export default function DailyCaloriesBurned({ calories }) {
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(calories)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Calories Burned Today
+        Calories Burned
       </Typography>
     </RootStyle>
   );
