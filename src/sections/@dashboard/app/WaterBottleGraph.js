@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { useTheme } from '@mui/material/styles';
 import { Card, CardHeader, Box, Typography } from '@mui/material';
 
@@ -51,32 +53,32 @@ export default function WaterBottleGraph({ waterDrunk, waterGoal }) {
               <Typography
                 variant="h6"
                 sx={{
-                  mt: '225%',
+                  mt: '125px',
                   mb: 0,
                   color: waterHeight <= 40 ? theme.palette.info.lighter : theme.palette.info.darker
                 }}
               >
-                - 10.5 -
+                - {Math.round(waterGoal * (3 / 4))} -
               </Typography>
               <Typography
                 variant="h6"
                 sx={{
-                  mt: '75%',
+                  mt: '42px',
                   mb: 0,
                   color: waterHeight <= 110 ? theme.palette.info.lighter : theme.palette.info.darker
                 }}
               >
-                - 10.5 -
+                - {Math.round(waterGoal * (2 / 4))} -
               </Typography>
               <Typography
                 variant="h6"
                 sx={{
-                  mt: '75%',
+                  mt: '42px',
                   mb: 0,
                   color: waterHeight <= 180 ? theme.palette.info.lighter : theme.palette.info.darker
                 }}
               >
-                - 10.5 -
+                - {Math.round(waterGoal * (1 / 4))} -
               </Typography>
             </div>
           </div>
@@ -88,3 +90,8 @@ export default function WaterBottleGraph({ waterDrunk, waterGoal }) {
     </Card>
   );
 }
+
+WaterBottleGraph.propTypes = {
+  waterDrunk: PropTypes.number.isRequired,
+  waterGoal: PropTypes.number.isRequired
+};

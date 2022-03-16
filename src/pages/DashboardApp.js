@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // material
 import { Box, Grid, Container, Typography } from '@mui/material';
 // firebase
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore/lite';
 import firebaseApp from '../Firebase';
 import { getUserData } from '../utils/getUserData';
 // utils
@@ -18,7 +18,7 @@ import {
   DailySteps,
   DailyWaterDrunk,
   WaterBottleGraph,
-  AppBugReports,
+  DailySleep,
   ActivityInput
 } from '../sections/@dashboard/app';
 
@@ -26,8 +26,9 @@ import {
 
 export default function DashboardApp() {
   const [loading, setLoading] = useState(true);
+  const [uid, setUid] = useState(null);
 
-  const [dayActivity, setDayActivity] = useState([0, 0, 0]);
+  const [dayActivity, setDayActivity] = useState([0, 0, 0, 0]);
   const [waterGoal, setWaterGoal] = useState(100);
   const [chartData, setChartData] = useState([
     {
@@ -66,7 +67,7 @@ export default function DashboardApp() {
       joinDate: date.toLocaleDateString('en'),
       waterGoal: 120
     };
-    data.activity[dateToISOFormat(date)] = [0, 0, 0];
+    data.activity[dateToISOFormat(date)] = [0, 0, 0, 0];
 
     await setDoc(doc(db, 'userData', uid), data);
   };
@@ -74,6 +75,7 @@ export default function DashboardApp() {
   useEffect(() => {
     getUserData(async (user) => {
       const { uid } = user;
+      setUid(uid);
       let userData = await getUserActivity(uid);
 
       if (!userData) {
@@ -89,10 +91,11 @@ export default function DashboardApp() {
       for (let i = 0; i < 30; i += 1) {
         const date = new Date(new Date().setDate(new Date().getDate() - i));
         const formattedDate = dateToISOFormat(date);
-        newChartData[i] = activity[formattedDate] || [0, 0, 0];
+        newChartData[i] = activity[formattedDate] || [0, 0, 0, 0];
 
         if (i === 0) setDayActivity(newChartData[i]);
       }
+      console.log(dayActivity);
 
       setChartData(() => [
         {
@@ -116,16 +119,47 @@ export default function DashboardApp() {
     });
   }, []);
 
+  const handleActivityInput = async (inputData, activityIndex) => {
+    const docRef = doc(db, 'userData', uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { activity } = docSnap.data();
+      const date = new Date();
+
+      const updatedActivity = {};
+      if (activity[dateToISOFormat(date)]) {
+        updatedActivity[`activity.${dateToISOFormat(date)}`] = [...activity[dateToISOFormat(date)]];
+      } else {
+        updatedActivity[`activity.${dateToISOFormat(date)}`] = [0, 0, 0, 0];
+      }
+
+      updatedActivity[`activity.${dateToISOFormat(date)}`][activityIndex] += inputData;
+
+      await updateDoc(docRef, updatedActivity);
+      if (activityIndex < 3) {
+        setChartData((value) => {
+          const newChartData = [...value];
+          newChartData[activityIndex].data[0] =
+            updatedActivity[`activity.${dateToISOFormat(date)}`][activityIndex] *
+            [3 / 1000, 1 / 10, 1][activityIndex];
+          return newChartData;
+        });
+      }
+      setDayActivity(updatedActivity[`activity.${dateToISOFormat(date)}`]);
+    }
+  };
+
   return (
     <Page title="Dashboard | Watch Your Water">
       <LoadingScreen open={loading} />
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid item xs={14} md={8} lg={8}>
+          <Grid item xs={12} md={8} lg={8}>
             <ActivityGraph chartData={chartData} />
           </Grid>
 
-          <Grid item xs={10} md={4} lg={4}>
+          <Grid item xs={12} md={4} lg={4}>
             <WaterBottleGraph waterDrunk={dayActivity[2]} waterGoal={waterGoal} />
           </Grid>
 
@@ -139,7 +173,7 @@ export default function DashboardApp() {
             <DailyCaloriesBurned calories={dayActivity[1]} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
+            <DailySleep sleep={dayActivity[3]} />
           </Grid>
         </Grid>
         <Box sx={{ pt: 5 }}>
@@ -147,7 +181,12 @@ export default function DashboardApp() {
         </Box>
       </Container>
 
-      <ActivityInput />
+      <ActivityInput
+        handleWaterInput={(water) => handleActivityInput(water, 2)}
+        handleStepInput={(steps) => handleActivityInput(steps, 0)}
+        handleCalorieInput={(calories) => handleActivityInput(calories, 1)}
+        handleSleepInput={(sleep) => handleActivityInput(sleep, 3)}
+      />
     </Page>
   );
 }

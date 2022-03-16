@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { styled, alpha } from '@mui/material/styles';
-import { Container, Button, Dialog, Slider, Typography, Tooltip } from '@mui/material';
+import { Container, Dialog, Typography, TextField } from '@mui/material';
 import Iconify from '../../../../components/Iconify';
 
 const InputNumber = styled(Typography)(({ theme }) => ({
@@ -75,49 +75,8 @@ export default function WaterInputDialog({ open, onSubmit, onClose }) {
   return (
     <Dialog open={open} onClose={onClose} onKeyDown={handleKeyPress}>
       <RootStyle>
-        <IconWrapperStyle>
-          <Iconify icon="mdi:water" width={256} height={256} />
-        </IconWrapperStyle>
-        <InputNumber variant="h3">{water}</InputNumber>
-        <Slider
-          defaultValue={50}
-          aria-label="Default"
-          color="info"
-          onChange={handleSliderChange}
-          value={water}
-          sx={{ width: 275 }}
-        />
-
-        <Container style={{ padding: 0, marginTop: 10 }}>
-          <Tooltip title="Glass - 8oz">
-            <Button
-              variant="contained"
-              color="info"
-              sx={quickSelectButtonStyle}
-              onClick={() => onSubmit(8)}
-            >
-              <Iconify icon="mdi:cup" width={24} height={24} />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Tall Glass - 16oz">
-            <Button
-              variant="contained"
-              color="info"
-              sx={quickSelectButtonStyle}
-              onClick={() => onSubmit(16)}
-            >
-              <Iconify icon="mdi:beer" width={32} height={32} />
-            </Button>
-          </Tooltip>
-          <Button
-            variant="contained"
-            color="info"
-            sx={quickSelectButtonStyle}
-            onClick={() => onSubmit(water)}
-          >
-            <Iconify icon="mdi:check-bold" width={32} height={32} />
-          </Button>
-        </Container>
+        <TextField label="Weight (lbs)" variant="outlined" type="number" color="info" />
+        <TextField label="Exercise (min)" variant="outlined" type="number" color="info" />
       </RootStyle>
     </Dialog>
   );

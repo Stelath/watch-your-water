@@ -1,4 +1,4 @@
-export { default as AppBugReports } from './AppBugReports';
+export { default as DailySleep } from './DailySleep';
 export { default as WaterBottleGraph } from './WaterBottleGraph';
 export { default as DailyCaloriesBurned } from './DailyCaloriesBurned';
 export { default as DailyWaterDrunk } from './DailyWaterDrunk';

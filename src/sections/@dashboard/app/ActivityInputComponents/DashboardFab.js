@@ -11,7 +11,13 @@ const FixedSpeedDial = styled(SpeedDial)(() => ({
   position: 'fixed'
 }));
 
-export default function DashboardFab() {
+export default function DashboardFab({
+  onWaterClick,
+  onSetGoalClick,
+  onCalorieClick,
+  onStepsClick,
+  onSleepClick
+}) {
   const theme = useTheme();
   const actions = [
     {
@@ -22,7 +28,19 @@ export default function DashboardFab() {
         color: theme.palette.info.darker,
         width: 48,
         height: 48
-      }
+      },
+      onClick: onWaterClick
+    },
+    {
+      icon: <Iconify icon="fluent:target-arrow-16-filled" width={32} height={32} />,
+      name: 'Set Water Goal',
+      sx: {
+        backgroundColor: theme.palette.info.lighter,
+        color: theme.palette.info.darker,
+        width: 48,
+        height: 48
+      },
+      onClick: onSetGoalClick
     },
     {
       icon: <Iconify icon="mdi:fire" width={32} height={32} />,
@@ -32,7 +50,8 @@ export default function DashboardFab() {
         color: theme.palette.warning.dark,
         width: 48,
         height: 48
-      }
+      },
+      onClick: onCalorieClick
     },
     {
       icon: <Iconify icon="mdi:run" width={32} height={32} />,
@@ -42,7 +61,19 @@ export default function DashboardFab() {
         color: theme.palette.primary.dark,
         width: 48,
         height: 48
-      }
+      },
+      onClick: onStepsClick
+    },
+    {
+      icon: <Iconify icon="mdi:power-sleep" width={32} height={32} />,
+      name: 'Log Sleep',
+      sx: {
+        backgroundColor: theme.palette.secondary.lighter,
+        color: theme.palette.secondary.dark,
+        width: 48,
+        height: 48
+      },
+      onClick: onSleepClick
     }
   ];
 
@@ -66,6 +97,7 @@ export default function DashboardFab() {
           icon={action.icon}
           tooltipTitle={action.name}
           sx={action.sx}
+          onClick={action.onClick}
         />
       ))}
     </FixedSpeedDial>

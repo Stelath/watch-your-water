@@ -42,7 +42,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Register(email, password, firstName, lastName) {
+export default function Register(email, password, firstName, lastName, weight) {
   const [openAlert, setOpenAlert] = useState(false);
   const [alert, setAlert] = useState('');
 
@@ -112,7 +112,7 @@ export default function Register(email, password, firstName, lastName) {
           <RegisterForm registerHandler={registerWithEmail} />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By registering, I agree to Minimal&nbsp;
+            By registering, I agree to Watch Your Water&nbsp;
             <Link underline="always" color="textPrimary">
               Terms of Service
             </Link>
