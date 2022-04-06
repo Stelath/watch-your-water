@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 // material
 import { alpha } from '@mui/material/styles';
 import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
@@ -13,19 +14,14 @@ import { getUserData } from '../../utils/getUserData';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Dashboard',
     icon: 'eva:home-fill',
     linkTo: '/'
   },
   {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#'
-  },
-  {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
-    linkTo: '#'
+    linkTo: '/settings'
   }
 ];
 
@@ -39,6 +35,21 @@ export default function AccountPopover() {
     email: 'Loading...',
     photoURL: '/static/mock-images/avatars/avatar_default.jpg'
   });
+
+  const navigate = useNavigate();
+
+  const firebaseLogout = () => {
+    getAuth()
+      .signOut()
+      .then(
+        () => {
+          navigate('/', { replace: true });
+        },
+        () => {
+          navigate('/404', { replace: true });
+        }
+      );
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -115,7 +126,7 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button fullWidth color="inherit" variant="outlined" onClick={firebaseLogout}>
             Logout
           </Button>
         </Box>

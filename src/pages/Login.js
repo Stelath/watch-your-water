@@ -52,7 +52,7 @@ export default function Login() {
   const loginWithEmail = (email, password) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         navigate('/dashboard', { replace: true });
       })
       .catch((error) => {
@@ -65,7 +65,7 @@ export default function Login() {
   const loginWithService = (provider) => {
     const auth = getAuth();
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(() => {
         navigate('/dashboard', { replace: true });
       })
       .catch((error) => {

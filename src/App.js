@@ -8,8 +8,6 @@ import GlobalStyles from './theme/globalStyles';
 // Components
 import ScrollToTop from './components/ScrollToTop';
 import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
-// Firebase
-import firebaseApp from './Firebase';
 
 // ----------------------------------------------------------------------
 

@@ -1,9 +1,8 @@
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, Link, Container } from '@mui/material';
 //
 import AccountPopover from './AccountPopover';
-import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -29,16 +28,28 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   }
 }));
 
+const LinkStyle = styled(Link)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: `underline`
+  },
+  marginLeft: '10px'
+}));
+
 // ----------------------------------------------------------------------
 
-export default function DashboardNavbar({ onOpenSidebar }) {
+export default function DashboardNavbar() {
   return (
     <RootStyle>
       <ToolbarStyle>
+        <Container sx={{ mt: '5px' }}>
+          <LinkStyle href="/home">Home</LinkStyle>
+          <LinkStyle href="/dashboard/leaderboard">Leaderboard</LinkStyle>
+          <LinkStyle href="/dashboard/app">Dashboard</LinkStyle>
+        </Container>
         <Box sx={{ flexGrow: 1 }} />
-
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <NotificationsPopover />
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

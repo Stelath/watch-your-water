@@ -3,11 +3,15 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
+import Home from './pages/Home';
+import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-import User from './pages/User';
+import Leaderboard from './pages/Leaderboard';
 import NotFound from './pages/Page404';
+//
+import AuthCheckRoute from './components/AuthCheckRoute';
 
 // ----------------------------------------------------------------------
 
@@ -19,14 +23,16 @@ export default function Router() {
       children: [
         { path: '', element: <Navigate to="/dashboard/app" /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> }
+        { path: 'leaderboard', element: <Leaderboard /> }
       ]
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <AuthCheckRoute to="/dashboard/app" secondary="/home" /> },
+        { path: 'home', element: <Home /> },
+        { path: 'settings', element: <Settings /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },

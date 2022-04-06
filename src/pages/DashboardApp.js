@@ -95,7 +95,6 @@ export default function DashboardApp() {
 
         if (i === 0) setDayActivity(newChartData[i]);
       }
-      console.log(dayActivity);
 
       setChartData(() => [
         {
@@ -135,6 +134,8 @@ export default function DashboardApp() {
       }
 
       updatedActivity[`activity.${dateToISOFormat(date)}`][activityIndex] += inputData;
+      // eslint-disable-next-line prefer-destructuring
+      updatedActivity.waterDrunkToday = updatedActivity[`activity.${dateToISOFormat(date)}`][2];
 
       await updateDoc(docRef, updatedActivity);
       if (activityIndex < 3) {
@@ -148,6 +149,13 @@ export default function DashboardApp() {
       }
       setDayActivity(updatedActivity[`activity.${dateToISOFormat(date)}`]);
     }
+  };
+
+  const handleWaterGoalInput = async ({ weight, exercise }) => {
+    const docRef = doc(db, 'userData', uid);
+    const newWaterGoal = Math.round((2 / 3) * weight + (exercise / 30) * 12);
+    await updateDoc(docRef, { waterGoal: newWaterGoal });
+    setWaterGoal(newWaterGoal);
   };
 
   return (
@@ -183,6 +191,7 @@ export default function DashboardApp() {
 
       <ActivityInput
         handleWaterInput={(water) => handleActivityInput(water, 2)}
+        handleWaterGoalInput={(weight, exercise) => handleWaterGoalInput(weight, exercise)}
         handleStepInput={(steps) => handleActivityInput(steps, 0)}
         handleCalorieInput={(calories) => handleActivityInput(calories, 1)}
         handleSleepInput={(sleep) => handleActivityInput(sleep, 3)}

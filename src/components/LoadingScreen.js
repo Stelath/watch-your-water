@@ -54,7 +54,7 @@ export default function LoadingScreen({ open }) {
             <img
               alt="Watch Your Water Logo"
               src={logo}
-              style={{ height: 175, borderRadius: 10, marginBottom: 50 }}
+              style={{ height: 100, borderRadius: 10, marginBottom: 50 }}
             />
             <CircularProgress color="secondary" />
           </div>

@@ -79,23 +79,13 @@ export default function LoginForm({ loginHandler }) {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-
-          <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
-            Forgot password?
-          </Link>
-        </Stack>
-
         <LoadingButton
           fullWidth
           size="large"
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          sx={{ mt: 2 }}
         >
           Login
         </LoadingButton>
