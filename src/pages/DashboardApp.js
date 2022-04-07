@@ -70,6 +70,7 @@ export default function DashboardApp() {
     data.activity[dateToISOFormat(date)] = [0, 0, 0, 0];
 
     await setDoc(doc(db, 'userData', uid), data);
+    return data;
   };
 
   useEffect(() => {

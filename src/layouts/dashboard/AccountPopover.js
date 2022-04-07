@@ -43,7 +43,7 @@ export default function AccountPopover() {
       .signOut()
       .then(
         () => {
-          navigate('/', { replace: true });
+          navigate('/home', { replace: true });
         },
         () => {
           navigate('/404', { replace: true });

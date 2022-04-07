@@ -2,7 +2,12 @@
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // firebase
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile
+} from 'firebase/auth';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
@@ -12,6 +17,7 @@ import AuthLayout from '../layouts/AuthLayout';
 import Page from '../components/Page';
 import { RegisterForm } from '../sections/authentication/register';
 import AuthSocial from '../sections/authentication/AuthSocial';
+import SnackbarAlert from '../components/SnackbarAlert';
 
 // ----------------------------------------------------------------------
 
@@ -42,21 +48,35 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Register(email, password, firstName, lastName, weight) {
+export default function Register() {
   const [openAlert, setOpenAlert] = useState(false);
   const [alert, setAlert] = useState('');
 
   const navigate = useNavigate();
 
-  const registerWithEmail = (email, password) => {
+  const registerWithEmail = (email, password, firstName, lastName) => {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const { user } = userCredential;
-        user.updateProfile({
+        updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
           photoURL: '/static/mock-images/avatars/avatar_default.jpg'
         });
+        navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setAlert(errorMessage);
+        console.log(error);
+        setOpenAlert(true);
+      });
+  };
+
+  const registerWithService = (provider) => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then(() => {
         navigate('/dashboard', { replace: true });
       })
       .catch((error) => {
@@ -66,18 +86,12 @@ export default function Register(email, password, firstName, lastName, weight) {
       });
   };
 
-  const registerWithService = (provider) => {
-    const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { user } = result;
-        navigate('/dashboard', { replace: true });
-      })
-      .catch((error) => {
-        const errorMessage = error.code;
-        setAlert(errorMessage);
-        setOpenAlert(true);
-      });
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenAlert(false);
   };
 
   return (
@@ -110,6 +124,8 @@ export default function Register(email, password, firstName, lastName, weight) {
           <AuthSocial loginHandler={registerWithService} />
 
           <RegisterForm registerHandler={registerWithEmail} />
+
+          <SnackbarAlert open={openAlert} alert={alert} onClose={handleClose} />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             By registering, I agree to Watch Your Water&nbsp;
