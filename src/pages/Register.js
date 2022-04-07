@@ -61,7 +61,7 @@ export default function Register() {
         const { user } = userCredential;
         updateProfile(user, {
           displayName: `${firstName} ${lastName}`,
-          photoURL: '/static/mock-images/avatars/avatar_default.jpg'
+          photoURL: '/static/avatars/avatar_default.jpg'
         });
         navigate('/dashboard', { replace: true });
       })
