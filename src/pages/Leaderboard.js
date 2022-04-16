@@ -40,9 +40,9 @@ export default function Leaderboard() {
             {rows.map((row, i) => (
               <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="left">
-                  <img src={row.imgURL} style={{ borderRadius: 50 }} alt="Profile" />
+                  <img src={row.imgURL} style={{ borderRadius: 100 }} alt="Profile" />
                 </TableCell>
-                <TableCell align="left">{i}</TableCell>
+                <TableCell align="left">{i + 1}</TableCell>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
