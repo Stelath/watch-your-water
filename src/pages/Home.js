@@ -76,7 +76,7 @@ export default function Home() {
     <RootStyle title="Watch Your Water">
       <BackgroundFar />
       <Background />
-      <Button sx={{ ...buttonSX, mr: '150px' }} variant="contained" href="/login">
+      <Button sx={{ ...buttonSX, mr: '150px' }} variant="contained" href="/homelogin">
         Login
       </Button>
       <Button sx={{ ...buttonSX, mr: '50px' }} variant="contained" href="/register">

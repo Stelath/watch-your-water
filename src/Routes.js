@@ -31,6 +31,7 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <AuthCheckRoute to="/dashboard/app" secondary="/home" /> },
+        { path: 'homelogin', element: <AuthCheckRoute to="/dashboard/app" secondary="/login" /> },
         { path: 'home', element: <Home /> },
         { path: 'settings', element: <Settings /> },
         { path: 'login', element: <Login /> },

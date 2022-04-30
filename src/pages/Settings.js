@@ -102,7 +102,11 @@ export default function Settings() {
         <Grid container spacing={3} direction="column" justifyContent="center" alignItems="center">
           <Grid item>
             <CardStyle>
-              <img src={account.photoURL} style={{ height: 100, borderRadius: 50 }} alt="Profile" />
+              <img
+                src={account.photoURL}
+                style={{ height: 100, width: 100, objectFit: 'cover', borderRadius: 50 }}
+                alt="Profile"
+              />
             </CardStyle>
           </Grid>
           <Grid item>
