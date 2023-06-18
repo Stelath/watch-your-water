@@ -1,5 +1,3 @@
-# watch your water
+# Watch Your Water
  A water tracking webapp utilizing Firebase
-
-
-firebase deploy --only hosting:watch-your-water
+ 
